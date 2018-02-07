@@ -53,7 +53,7 @@ def finJeu(jeu):
     """ jeu -> bool
         Retourne vrai si c'est la fin du jeu
     """
-    game.fin(jeu)
+    return game.fin(jeu)
 
 def saisieCoup(jeu):
     """ jeu -> coup
@@ -90,11 +90,11 @@ def getGagnant(jeu):
     
     	if jeu[4][0] < jeu[4][1]:
     	
-    		return jeu[4][1]
+    		return 2
     		
     	elif jeu[4][0] > jeu[4][1]:
     	
-    		return jeu[4][0]
+    		return 1
     		
     	else:
     	

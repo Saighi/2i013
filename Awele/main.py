@@ -5,21 +5,29 @@ sys.path.append("..")
 import game
 game.game=awele
 sys.path.append("./Joueurs")
-import joueur_humain
-game.joueur1=joueur_humain
-game.joueur2=joueur_humain
+import joueur_aleatoire
+game.joueur1=joueur_aleatoire
+game.joueur2=joueur_aleatoire
 
-jeu = game.initialiseJeu()
+def play():
 
-while not game.finJeu(jeu):
+	jeu = game.initialiseJeu()
 
-	game.affiche(jeu)
-	valides = game.getCoupsValides(jeu)
+	while True:
+
+		game.affiche(jeu)
+		valides = game.getCoupsValides(jeu)
 	
-	if len(valides) !=0:
+		if game.finJeu(jeu):
 	
-		 coup = game.saisieCoup(jeu)
-		 
-	game.joueCoup(jeu,coup)
+			break
+	
+		elif valides != None:
+	
+			 coup = game.saisieCoup(jeu)
+			 
+		game.joueCoup(jeu,coup)
 		
-print("Le gagnant est : ", getGagnant(jeu))
+	print("Le gagnant est : ", game.getGagnant(jeu))
+	
+	return game.getGagnant(jeu)

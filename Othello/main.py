@@ -4,22 +4,33 @@ sys.path.append("..")
 import game
 game.game=othello
 sys.path.append("./Joueurs")
-import joueur_humain
-game.joueur1=joueur_humain
-game.joueur2=joueur_humain
+import joueur_aleatoire
+game.joueur1=joueur_aleatoire
+game.joueur2=joueur_aleatoire
 
 
-jeu = game.initialiseJeu()
+def play():
 
-while not game.finJeu(jeu):
+	jeu = game.initialiseJeu()
 
-	game.affiche(jeu)
-	valides = game.getCoupsValides(jeu)
+	while True:
 	
-	if len(valides) !=0:
 	
-		 coup = game.saisieCoup(jeu)
-		 
-	game.joueCoup(jeu,coup)
+
+		game.affiche(jeu)
+		valides = game.getCoupsValides(jeu)
+	
+		if game.finJeu(jeu):
+			break
 		
-print("Le gagnant est : ", getGagnant(jeu))
+		if len(valides) !=0:
+	
+			 coup = game.saisieCoup(jeu)
+	
+			 
+		game.joueCoup(jeu,coup)
+		
+	print("Le gagnant est : " + str(game.getGagnant(jeu)))
+	return game.getGagnant(jeu)
+		
+

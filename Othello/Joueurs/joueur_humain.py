@@ -17,10 +17,11 @@ def saisieCoup(jeu):
 		n += 1
 		
 	
-	n = input("Quel coup choisissez vous : ")
+	n = int(input("Quel coup choisissez vous : "))
 	
 	while n < 0 or n >len(listc):
 	
-		n = input("Quel coup choisissez vous : ")
+		n = int(input("Quel coup choisissez vous : "))
 		
 	return listc[n]
+	
