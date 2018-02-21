@@ -5,8 +5,9 @@ import game
 game.game=othello
 sys.path.append("./Joueurs")
 import joueur_aleatoire
-game.joueur1=joueur_aleatoire
-game.joueur2=joueur_aleatoire
+import joueur_MinMax
+game.joueur1=joueur_MinMax
+game.joueur2=joueur_MinMax
 
 
 def play():
@@ -22,6 +23,7 @@ def play():
 	
 		if game.finJeu(jeu):
 			break
+			
 		
 		if len(valides) !=0:
 	
@@ -32,5 +34,7 @@ def play():
 		
 	print("Le gagnant est : " + str(game.getGagnant(jeu)))
 	return game.getGagnant(jeu)
-		
+	
 
+		
+play()

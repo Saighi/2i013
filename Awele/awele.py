@@ -55,7 +55,7 @@ def CoupValides(jeu):
 	
 		for coup in coupValides:
 	
-			print(coup[1]+jeu[0][coup[0]][coup[1]])
+			#print(coup[1]+jeu[0][coup[0]][coup[1]])
 	
 			if coup[1]+jeu[0][coup[0]][coup[1]] < ligneSize and coup[0] == 1:
 		
@@ -68,13 +68,13 @@ def CoupValides(jeu):
 	if len(coupValides) == 0:
 		return None
 	
-	print(coupValides)
+	#print(coupValides)
 	
 	return coupValides
 	
 def joueCoup(jeu,coup):
 
-	print(coup)
+	#print(coup)
 
 	n = jeu[0][coup[0]][coup[1]]
 	jeu[0][coup[0]][coup[1]] = 0
@@ -155,7 +155,7 @@ def joueCoup(jeu,coup):
 	
 def fin(jeu):
 
-	print("Nombre de tour : " + str(len(jeu[3])))
+	#print("Nombre de tour : " + str(len(jeu[3])))
 
 	if len(jeu[3]) >= 500:
 		

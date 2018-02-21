@@ -5,15 +5,17 @@ sys.path.append("..")
 import game
 game.game=awele
 sys.path.append("./Joueurs")
-import joueur_aleatoire
-game.joueur1=joueur_aleatoire
-game.joueur2=joueur_aleatoire
+import joueur_premierCoupValide
+import joueur_MinMax
+game.joueur1=joueur_MinMax
+game.joueur2=joueur_premierCoupValide
 
 def play():
 
 	jeu = game.initialiseJeu()
 
 	while True:
+
 
 		game.affiche(jeu)
 		valides = game.getCoupsValides(jeu)
@@ -31,3 +33,5 @@ def play():
 	print("Le gagnant est : ", game.getGagnant(jeu))
 	
 	return game.getGagnant(jeu)
+	
+play()
