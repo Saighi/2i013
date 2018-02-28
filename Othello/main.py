@@ -4,10 +4,10 @@ sys.path.append("..")
 import game
 game.game=othello
 sys.path.append("./Joueurs")
-import joueur_aleatoire
 import joueur_MinMax
+import joueur_AlphaBeta
 game.joueur1=joueur_MinMax
-game.joueur2=joueur_MinMax
+game.joueur2=joueur_AlphaBeta
 
 
 def play():

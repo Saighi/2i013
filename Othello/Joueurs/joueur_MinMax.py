@@ -11,43 +11,26 @@ def saisieCoup(jeu):
 	global joueur
 	joueur = jeu[1]
 	
-	listc = jeu[2]
+	maxi=-10000
+	imax=0
 	
-	scores = []
+	for i in range(len(jeu[2])):
 	
-	for coup in listc:
+		score = saisieCoupSimuMin(2, game.getCopieJeu(jeu), jeu[2][i])
 	
-		scores.append( simulation(1, game.getCopieJeu(jeu), coup))
-
+		if score > maxi:
 		
-	return listc[scores.index(max(scores))]
+			maxi=score
+			imax=i
+		
+		
+	return jeu[2][imax]
 		
 	
-def saisieCoupSimu(jeu,profondeur):
+def saisieCoupSimuMax(profondeur,jeu,coup):
 	""" jeu -> coup
 	Retourne un coup a jouer aleatoire 
 	"""
-	global joueur
-	
-	listc = jeu[2]
-	
-	scores = []
-	
-	for coup in listc:
-	
-		scores.append( simulation(profondeur,	game.getCopieJeu(jeu), coup))
-		
-		
-	if jeu[1] == joueur:
-				
-		return max(scores)
-			
-	else:
-		
-		return min(scores)
-	
-def simulation(profondeur, jeu, coup):
-	
 	game.joueCoup(jeu,coup)
 
 	if profondeur==0:
@@ -59,10 +42,58 @@ def simulation(profondeur, jeu, coup):
 	
 		return eval(jeu)
 	
+	else:
 	
-	return saisieCoupSimu(jeu , profondeur-1)
-			 
+		global joueur
+	
+		imax=0
+		maxi=-1000
+	
+		for i in range(len(jeu[2])):
+	
+			score = saisieCoupSimuMin(profondeur-1, game.getCopieJeu(jeu), jeu[2][i])
+	
+			if score > maxi:
+		
+				maxi=score
+				imax=i
+		
+		
+	return jeu[2][imax]
+		
+def saisieCoupSimuMin(profondeur,jeu,coup):
+	""" jeu -> coup
+	Retourne un coup a jouer aleatoire 
+	"""
+	game.joueCoup(jeu,coup)
 
+	if profondeur==0:
+		return eval(jeu)
+		
+	valides = game.getCoupsValides(jeu)
+	
+	if game.finJeu(jeu):
+	
+		return eval(jeu)
+	
+	else:
+	
+		global joueur
+	
+		imin=0
+		mini=1000
+	
+		for i in range(len(jeu[2])):
+	
+			score = saisieCoupSimuMax(profondeur-1, game.getCopieJeu(jeu), jeu[2][i])
+	
+			if score < mini:
+		
+				mini=score
+				imin=i
+		
+		
+	return jeu[2][imin]	 
 	
 def eval(jeu):
 

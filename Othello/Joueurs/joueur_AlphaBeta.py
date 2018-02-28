@@ -3,6 +3,7 @@ sys.path.append("../..")
 import game
 
 joueur = 0
+precedent = 0
 
 def saisieCoup(jeu):
 	""" jeu -> coup
@@ -44,7 +45,7 @@ def saisieCoupSimuMax(profondeur,jeu,coup):
 	
 	else:
 	
-		global joueur
+		global precedent
 	
 		imax=0
 		maxi=-1000
@@ -53,13 +54,16 @@ def saisieCoupSimuMax(profondeur,jeu,coup):
 	
 			score = saisieCoupSimuMin(profondeur-1, game.getCopieJeu(jeu), jeu[2][i])
 	
-			if score > maxi:
+			if score >= precedent:
+			
+				return score
+	
+			elif score > maxi:
 		
 				maxi=score
-				imax=i
 		
-		
-	return jeu[2][imax]
+	precedent = max
+	return maxi
 		
 def saisieCoupSimuMin(profondeur,jeu,coup):
 	""" jeu -> coup
@@ -78,7 +82,7 @@ def saisieCoupSimuMin(profondeur,jeu,coup):
 	
 	else:
 	
-		global joueur
+		global precedent
 	
 		imin=0
 		mini=1000
@@ -87,15 +91,30 @@ def saisieCoupSimuMin(profondeur,jeu,coup):
 	
 			score = saisieCoupSimuMax(profondeur-1, game.getCopieJeu(jeu), jeu[2][i])
 	
+			if score <= precedent:
+			
+				return score
+	
 			if score < mini:
 		
 				mini=score
-				imin=i
 		
-		
-	return jeu[2][imin]	 
+	precedent = mini
+	return mini
 	
 def eval(jeu):
 
+
 	return jeu[4][joueur-1]
+
+	"""if joueur == 1:
+		
+		return jeu[4][0] - jeu[4][1]
+				
+	else:
 	
+		return jeu[4][1] - jeu[4][0]"""
+	
+		
+			
+				 
