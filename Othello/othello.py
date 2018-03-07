@@ -16,8 +16,9 @@ def init():
 	plateau[3][4]=2
 	plateau[4][4]=1
 	plateau[4][3]=2
+	 
 	
-	return [plateau,1,None,[],[0,0]]
+	return [plateau,1,None,[],[2,2]]
 	
 def CoupValides(jeu):
 	
@@ -127,7 +128,7 @@ def joueCoup(jeu,coup):
 	
 		if jeu[0][coup[0]+1+scan][coup[1]]!= jeu[1] and jeu[0][coup[0]+1+scan][coup[1]]!= 0:
 			if jeu[0][coup[0]+2+scan][coup[1]]== jeu[1]:
-				jeu[4][jeu[1]-1]+=scan+1
+				
 				while scan >=0:
 					jeu[0][coup[0]+1+scan][coup[1]] = jeu[1]
 					scan-=1
@@ -143,7 +144,7 @@ def joueCoup(jeu,coup):
 	
 	 	if jeu[0][coup[0]-1-scan][coup[1]]!= jeu[1] and jeu[0][coup[0]-1-scan][coup[1]]!= 0:
 			if jeu[0][coup[0]-2-scan][coup[1]]== jeu[1]:
-				jeu[4][jeu[1]-1]+=scan+1
+				
 				while scan >=0:
 					jeu[0][coup[0]-1-scan][coup[1]] = jeu[1]
 					scan-=1
@@ -158,7 +159,7 @@ def joueCoup(jeu,coup):
 	
 		if jeu[0][coup[0]][coup[1]+1+scan]!= jeu[1] and jeu[0][coup[0]][coup[1]+1+scan]!= 0:
 			if jeu[0][coup[0]][coup[1]+2+scan]== jeu[1]:
-				jeu[4][jeu[1]-1]+=scan+1
+				
 				while scan >=0:
 					jeu[0][coup[0]][coup[1]+1+scan] = jeu[1]
 					scan-=1
@@ -173,7 +174,7 @@ def joueCoup(jeu,coup):
 	
 		if jeu[0][coup[0]][coup[1]-1-scan]!= jeu[1] and jeu[0][coup[0]][coup[1]-1-scan]!= 0:
 			if jeu[0][coup[0]][coup[1]-2-scan]== jeu[1]:
-				jeu[4][jeu[1]-1]+=scan+1
+				
 				while scan >=0:
 					jeu[0][coup[0]][coup[1]-1-scan] = jeu[1]
 					scan-=1
@@ -188,7 +189,7 @@ def joueCoup(jeu,coup):
 	
 		if jeu[0][coup[0]+1+scan][coup[1]+1+scan]!= jeu[1] and jeu[0][coup[0]+1+scan][coup[1]+1+scan]!= 0:
 			if jeu[0][coup[0]+2+scan][coup[1]+2+scan]== jeu[1]:
-				jeu[4][jeu[1]-1]+=scan+1
+				
 				while scan >=0:
 					jeu[0][coup[0]+1+scan][coup[1]+1+scan] = jeu[1]
 					scan-=1
@@ -204,7 +205,7 @@ def joueCoup(jeu,coup):
 	
 	 	if jeu[0][coup[0]-1-scan][coup[1]-1-scan]!= jeu[1] and jeu[0][coup[0]-1-scan][coup[1]-1-scan]!= 0:
 			if jeu[0][coup[0]-2-scan][coup[1]-2-scan]== jeu[1]:
-				jeu[4][jeu[1]-1]+=scan+1
+				
 				while scan >=0:
 					jeu[0][coup[0]-1-scan][coup[1]-1-scan] = jeu[1]
 					scan-=1
@@ -219,7 +220,7 @@ def joueCoup(jeu,coup):
 	
 		if jeu[0][coup[0]-1-scan][coup[1]+1+scan]!= jeu[1] and jeu[0][coup[0]-1-scan][coup[1]+1+scan]!= 0:
 			if jeu[0][coup[0]-2-scan][coup[1]+2+scan]== jeu[1]:
-				jeu[4][jeu[1]-1]+=scan+1
+				
 				while scan >=0:
 					jeu[0][coup[0]-1-scan][coup[1]+1+scan] = jeu[1]
 					scan-=1
@@ -234,7 +235,7 @@ def joueCoup(jeu,coup):
 	
 		if jeu[0][coup[0]+1+scan][coup[1]-1-scan]!= jeu[1] and jeu[0][coup[0]+1+scan][coup[1]-1-scan]!= 0:
 			if jeu[0][coup[0]+2+scan][coup[1]-2-scan]== jeu[1]:
-				jeu[4][jeu[1]-1]+=scan+1
+				
 				while scan >=0:
 					jeu[0][coup[0]+1+scan][coup[1]-1-scan] = jeu[1]
 					scan-=1
@@ -251,8 +252,18 @@ def joueCoup(jeu,coup):
 	
 		jeu[1]=1
 		
-	jeu[2]=None	
+	jeu[2]=None
+	temp1=0
+	temp2=0
 		
+	for i in jeu[0]:
+		for j in i:
+			if j==1:
+				temp1+=1
+			if j==2:
+				temp2+=1
+	jeu[4][0]=temp1
+	jeu[4][1]=temp2
 
 def fin(jeu):
 	AuMoinsUneCaseVide=False

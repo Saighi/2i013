@@ -159,6 +159,12 @@ def algo2(jeu):
 		if jeu[0][joueur-1][i] == 0:
 		
 				estMarche=False
+
+		for j in range(i,len(jeu[0][joueur-1])):
+		
+			if jeu[0][joueur-1][i] == 0 and i+jeu[0][joueur-1][i] >= j:
+			
+				estMarche=False
 	
 		if not(i+jeu[0][joueur-1][i] <LIGNESIZE ) and joueur-1 == 1:
 		
@@ -212,7 +218,7 @@ def algo2(jeu):
 			count+=1
 			
 	print(count)
-	return count
+	return count + jeu[4][joueur-1] - jeu[4][enemi-1]
 		
 			
 				 

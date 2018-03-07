@@ -4,6 +4,15 @@ import game
 
 joueur = 0
 precedent = 0
+TabVal = [[500,-150,30,10,10,30,-150,500],
+		  [-150,-250,0,0,0,0,-250,-150],
+		  [30,0,1,2,2,1,0,30],
+		  [10,0,2,16,16,2,0,10],
+		  [10,0,2,16,16,2,0,10],
+		  [30,0,1,2,2,1,0,30],
+		  [-150,-250,0,0,0,0,-250,-150],
+		  [500,-150,30,10,10,30,-150,500]]
+		  
 
 def saisieCoup(jeu):
 	""" jeu -> coup
@@ -34,14 +43,10 @@ def saisieCoupSimuMax(profondeur,jeu,coup):
 	"""
 	game.joueCoup(jeu,coup)
 
-	if profondeur==0:
-		return eval(jeu)
-		
 	valides = game.getCoupsValides(jeu)
-	
-	if game.finJeu(jeu):
-	
-		return eval(jeu)
+
+	if profondeur==0 or game.finJeu(jeu):
+		return eval(jeu,profondeur)
 	
 	else:
 	
@@ -62,7 +67,7 @@ def saisieCoupSimuMax(profondeur,jeu,coup):
 		
 				maxi=score
 		
-	precedent = max
+	precedent = maxi
 	return maxi
 		
 def saisieCoupSimuMin(profondeur,jeu,coup):
@@ -70,15 +75,10 @@ def saisieCoupSimuMin(profondeur,jeu,coup):
 	Retourne un coup a jouer aleatoire 
 	"""
 	game.joueCoup(jeu,coup)
-
-	if profondeur==0:
-		return eval(jeu)
-		
 	valides = game.getCoupsValides(jeu)
-	
-	if game.finJeu(jeu):
-	
-		return eval(jeu)
+
+	if profondeur==0 or game.finJeu(jeu):
+		return eval(jeu,profondeur)
 	
 	else:
 	
@@ -102,18 +102,37 @@ def saisieCoupSimuMin(profondeur,jeu,coup):
 	precedent = mini
 	return mini
 	
-def eval(jeu):
-
-
-	return jeu[4][joueur-1]
-
-	"""if joueur == 1:
-		
-		return jeu[4][0] - jeu[4][1]
-				
-	else:
+def eval(jeu,profondeur):
 	
-		return jeu[4][1] - jeu[4][0]"""
+	global joueur
+	global TabVal
+	
+	statut = len(jeu[3])
+	
+	if statut <= 12:
+		a1=0
+		a2=1
+		a3=1
+	if statut >= 60-profondeur:
+		a1=1
+		a2=0
+		a3=0
+	else:
+		a1=1
+		a2=1
+		a3=1
+	
+	score = jeu[4][joueur-1]
+	
+	nbcoup = len(jeu[2])
+	
+	force=0
+	for x in range(8):
+		for y in range(8):
+			if joueur == jeu[0][x][y]:
+				force += TabVal[x][y]
+
+	return a1*score + a2*nbcoup + a3*force
 	
 		
 			

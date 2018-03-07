@@ -6,8 +6,8 @@ import game
 game.game=awele
 sys.path.append("./Joueurs")
 import joueur_premierCoupValide
-import joueur_AlphaBeta
-game.joueur1=joueur_AlphaBeta
+import joueur_NegaMax
+game.joueur1=joueur_NegaMax
 game.joueur2=joueur_premierCoupValide
 
 def play():
