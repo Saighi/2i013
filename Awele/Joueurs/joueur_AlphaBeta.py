@@ -1,10 +1,16 @@
+# -*- coding: cp1252 -*-
+
 import sys
 sys.path.append("../..")
 import game
 
 joueur = 0
-precedent = 0
 LIGNESIZE = 6
+
+Pond = [0.1986,0.19,0.3707,1.0,0.4188,0.5659]
+
+Alpha = -10000
+Beta = 10000
 
 def saisieCoup(jeu):
 	""" jeu -> coup
@@ -15,11 +21,15 @@ def saisieCoup(jeu):
 	
 	maxi=-10000
 	imax=0
+
+	score= -10000
+	rightest = True
 	
 	for i in range(len(jeu[2])):
 	
-		score = saisieCoupSimuMin(3, game.getCopieJeu(jeu), jeu[2][i])
-	
+		score = CoupMin(5, game.getCopieJeu(jeu), jeu[2][i],rightest)
+		rightest = False
+
 		if score > maxi:
 		
 			maxi=score
@@ -29,84 +39,76 @@ def saisieCoup(jeu):
 	return jeu[2][imax]
 		
 	
-def saisieCoupSimuMax(profondeur,jeu,coup):
+def CoupMax(profondeur,jeu,coup,rightest):
 	""" jeu -> coup
 	Retourne un coup a jouer aleatoire 
 	"""
 	game.joueCoup(jeu,coup)
-
-	if profondeur==0:
-		return eval(jeu)
 		
 	valides = game.getCoupsValides(jeu)
 	
-	if game.finJeu(jeu):
+	if game.finJeu(jeu) or profondeur==0:
 	
-		return eval(jeu)
+		return eval(jeu,coup,rightest)
 	
 	else:
 	
-		global precedent
-	
-		imax=0
-		maxi=-1000
+		global Alpha
+		global Beta
+
+		score = -10000
+		rightest = True
 	
 		for i in range(len(jeu[2])):
 	
-			score = saisieCoupSimuMin(profondeur-1, game.getCopieJeu(jeu), jeu[2][i])
+			score = max(score,CoupMin(profondeur-1, game.getCopieJeu(jeu), jeu[2][i],rightest))
+			rightest = False
 	
-			if score >= precedent:
+			if score >= Beta:
 			
 				return score
-	
-			elif score > maxi:
+			
+			Alpha = max(Alpha,score)
+
+	return score
 		
-				maxi=score
-		
-	precedent = max
-	return maxi
-		
-def saisieCoupSimuMin(profondeur,jeu,coup):
+def CoupMin(profondeur,jeu,coup,rightest):
 	""" jeu -> coup
 	Retourne un coup a jouer aleatoire 
 	"""
 	game.joueCoup(jeu,coup)
-
-	if profondeur==0:
-		return eval(jeu)
 		
 	valides = game.getCoupsValides(jeu)
 	
-	if game.finJeu(jeu):
+	if game.finJeu(jeu) or profondeur==0:
 	
-		return eval(jeu)
+		return eval(jeu,coup,rightest)
 	
 	else:
 	
-		global precedent
-	
-		imin=0
-		mini=1000
+		global Alpha
+		global Beta
+
+		score = 10000
+		rightest = True
 	
 		for i in range(len(jeu[2])):
 	
-			score = saisieCoupSimuMax(profondeur-1, game.getCopieJeu(jeu), jeu[2][i])
+			score = min(score,CoupMax(profondeur-1, game.getCopieJeu(jeu), jeu[2][i],rightest))
+			rightest = False
 	
-			if score <= precedent:
+			if score <= Alpha:
 			
 				return score
-	
-			if score < mini:
+			
+			Beta = min(Beta,score)
 		
-				mini=score
-		
-	precedent = mini
-	return mini
+	return score
 	
-def eval(jeu):
+def eval(jeu,coup,rightest):
 
 
-	return algo2(jeu)
+	return jsp(jeu,coup,rightest)
 
 def algo1(jeu):
 
@@ -142,7 +144,6 @@ def algo1(jeu):
 			
 	count+= jeu[4][joueur-1]
 			
-	print(count)
 	return count
 	
 def algo2(jeu):
@@ -217,8 +218,52 @@ def algo2(jeu):
 		
 			count+=1
 			
-	print(count)
 	return count + jeu[4][joueur-1] - jeu[4][enemi-1]
 		
-			
-				 
+def dif_mob_menace(jeu):
+
+        mobilite = 0
+        menace = 0
+        dif=0
+
+        enemi=1 if joueur == 2 else 2
+
+        for i in range(6):
+
+                if jeu[0][joueur-1][i]!=0:
+
+                        mobilite+=1
+                        dif+=jeu[0][joueur-1][i]
+
+                if jeu[0][enemi-1][i]!=0:
+
+                        menace+=1
+                        dif-=jeu[0][enemi-1][i]
+
+        dif = jeu[4][joueur-1] - jeu[4][enemi-1]
+
+        return dif*100+menace*33+mobilite*22
+        
+def jsp(jeu,coup,rightest):
+
+	global Pond
+
+	enemi=1 if joueur == 2 else 2
+
+	h1=max(jeu[0][joueur-1])
+	h2=0
+	
+	for i in jeu[0][joueur-1]:
+	
+		h2+=i
+		
+	h3=len(jeu[2]) if jeu[2]!=None else 0
+	
+	h4=jeu[4][joueur-1]
+	
+	h5=1 if rightest else 0
+	
+	h6=jeu[4][enemi-1]
+	
+	return h1*Pond[0]+h2*Pond[1]+h3*Pond[2]+h4*Pond[3]+h5*Pond[4]-h6*Pond[5]
+                

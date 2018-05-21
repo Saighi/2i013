@@ -5,10 +5,10 @@ sys.path.append("..")
 import game
 game.game=awele
 sys.path.append("./Joueurs")
-import joueur_premierCoupValide
-import joueur_NegaMax
-game.joueur1=joueur_NegaMax
-game.joueur2=joueur_premierCoupValide
+import joueur_aleatoire
+import joueur_AlphaBeta
+game.joueur1=joueur_AlphaBeta
+game.joueur2=joueur_aleatoire
 
 def play():
 
