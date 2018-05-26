@@ -6,8 +6,8 @@ import game
 game.game=awele
 sys.path.append("./Joueurs")
 import joueur_aleatoire
-import joueur_AlphaBeta
-game.joueur1=joueur_AlphaBeta
+import joueur_AlphaBeta_prof1
+game.joueur1=joueur_AlphaBeta_prof1
 game.joueur2=joueur_aleatoire
 
 def play():
@@ -17,7 +17,7 @@ def play():
 	while True:
 
 
-		game.affiche(jeu)
+		#game.affiche(jeu)
 		valides = game.getCoupsValides(jeu)
 	
 		if game.finJeu(jeu):

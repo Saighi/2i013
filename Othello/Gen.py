@@ -63,7 +63,7 @@ def start():
 
     global n
 
-    while n<20 and max(FinessList)<18:
+    while n<20 and max(FinessList)<=18:
 
         if maxi < max(FinessList):
             maxi = max(maxi,max(FinessList))
@@ -231,5 +231,4 @@ def no_doublon(PondList,pond):
 
         for n in range(count-1):
             PondList.remove(pond)
-
-print(start())
+start()

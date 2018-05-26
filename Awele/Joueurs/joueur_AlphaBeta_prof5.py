@@ -2,6 +2,7 @@
 
 import sys
 sys.path.append("../..")
+
 import game
 
 joueur = 0
@@ -23,12 +24,17 @@ def saisieCoup(jeu):
 	imax=0
 
 	score= -10000
-	rightest = True
+	leftest = True
 	
 	for i in range(len(jeu[2])):
+
+		
+		
 	
-		score = CoupMin(5, game.getCopieJeu(jeu), jeu[2][i],rightest)
-		rightest = False
+		score = CoupMin(5, game.getCopieJeu(jeu), jeu[2][i],leftest)
+
+		leftest= False
+		
 
 		if score > maxi:
 		
@@ -37,9 +43,39 @@ def saisieCoup(jeu):
 		
 		
 	return jeu[2][imax]
+
+def scorescoups(jeu):
+
+	global joueur
+	joueur = jeu[1]
+	maxi=-10000
+	imax=0
+	score= -10000
+	leftest = True
+	scores=[]
+	if jeu[2]!=None:
+		for i in range(len(jeu[2])):
+
+			
+			
 		
+			score = CoupMin(5, game.getCopieJeu(jeu), jeu[2][i],leftest)
+			scores.append(score)
+
+			leftest= False
+			
+
+			if score > maxi:
+			
+				maxi=score
+				imax=i
+		
+
+
+	return scores
+
 	
-def CoupMax(profondeur,jeu,coup,rightest):
+def CoupMax(profondeur,jeu,coup,leftest):
 	""" jeu -> coup
 	Retourne un coup a jouer aleatoire 
 	"""
@@ -49,7 +85,7 @@ def CoupMax(profondeur,jeu,coup,rightest):
 	
 	if game.finJeu(jeu) or profondeur==0:
 	
-		return eval(jeu,coup,rightest)
+		return eval(jeu,coup,leftest)
 	
 	else:
 	
@@ -57,12 +93,12 @@ def CoupMax(profondeur,jeu,coup,rightest):
 		global Beta
 
 		score = -10000
-		rightest = True
+		leftest = True
 	
 		for i in range(len(jeu[2])):
 	
-			score = max(score,CoupMin(profondeur-1, game.getCopieJeu(jeu), jeu[2][i],rightest))
-			rightest = False
+			score = max(score,CoupMin(profondeur-1, game.getCopieJeu(jeu), jeu[2][i],leftest))
+			leftest = False
 	
 			if score >= Beta:
 			
@@ -72,7 +108,7 @@ def CoupMax(profondeur,jeu,coup,rightest):
 
 	return score
 		
-def CoupMin(profondeur,jeu,coup,rightest):
+def CoupMin(profondeur,jeu,coup,leftest):
 	""" jeu -> coup
 	Retourne un coup a jouer aleatoire 
 	"""
@@ -82,7 +118,7 @@ def CoupMin(profondeur,jeu,coup,rightest):
 	
 	if game.finJeu(jeu) or profondeur==0:
 	
-		return eval(jeu,coup,rightest)
+		return eval(jeu,coup,leftest)
 	
 	else:
 	
@@ -90,12 +126,12 @@ def CoupMin(profondeur,jeu,coup,rightest):
 		global Beta
 
 		score = 10000
-		rightest = True
+		leftest = True
 	
 		for i in range(len(jeu[2])):
 	
-			score = min(score,CoupMax(profondeur-1, game.getCopieJeu(jeu), jeu[2][i],rightest))
-			rightest = False
+			score = min(score,CoupMax(profondeur-1, game.getCopieJeu(jeu), jeu[2][i],leftest))
+			leftest= False
 	
 			if score <= Alpha:
 			
@@ -105,10 +141,10 @@ def CoupMin(profondeur,jeu,coup,rightest):
 		
 	return score
 	
-def eval(jeu,coup,rightest):
+def eval(jeu,coup,leftest):
 
 
-	return jsp(jeu,coup,rightest)
+	return jsp(jeu,coup,leftest)
 
 def algo1(jeu):
 
@@ -244,7 +280,7 @@ def dif_mob_menace(jeu):
 
         return dif*100+menace*33+mobilite*22
         
-def jsp(jeu,coup,rightest):
+def jsp(jeu,coup,leftest):
 
 	global Pond
 
@@ -261,9 +297,13 @@ def jsp(jeu,coup,rightest):
 	
 	h4=jeu[4][joueur-1]
 	
-	h5=1 if rightest else 0
+	h5=1 if leftest else 0
 	
-	h6=jeu[4][enemi-1]
+	h6=-jeu[4][enemi-1]
 	
-	return h1*Pond[0]+h2*Pond[1]+h3*Pond[2]+h4*Pond[3]+h5*Pond[4]-h6*Pond[5]
+	return h1*Pond[0]+h2*Pond[1]+h3*Pond[2]+h4*Pond[3]+h5*Pond[4]+h6*Pond[5]
+
+
+
+
                 
