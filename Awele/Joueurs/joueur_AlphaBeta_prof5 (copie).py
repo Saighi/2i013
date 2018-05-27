@@ -2,6 +2,7 @@
 
 import sys
 sys.path.append("../..")
+
 import game
 
 joueur = 0
@@ -31,7 +32,7 @@ def saisieCoup(jeu):
 		
 		
 	
-		score = CoupMin(1, game.getCopieJeu(jeu), jeu[2][i],leftest)
+		score = CoupMin(5, game.getCopieJeu(jeu), jeu[2][i],leftest)
 
 		leftest= False
 		
@@ -43,7 +44,37 @@ def saisieCoup(jeu):
 		
 		
 	return jeu[2][imax]
+
+def scorescoups(jeu):
+
+	global joueur
+	joueur = jeu[1]
+	maxi=-10000
+	imax=0
+	score= -10000
+	leftest = True
+	scores=[]
+	if jeu[2]!=None:
+		for i in range(len(jeu[2])):
+
+			
+			
 		
+			score = CoupMin(5, game.getCopieJeu(jeu), jeu[2][i],leftest)
+			scores.append(score)
+
+			leftest= False
+			
+
+			if score > maxi:
+			
+				maxi=score
+				imax=i
+		
+
+
+	return scores
+
 	
 def CoupMax(profondeur,jeu,coup,leftest):
 	""" jeu -> coup
@@ -67,7 +98,7 @@ def CoupMax(profondeur,jeu,coup,leftest):
 	
 		for i in range(len(jeu[2])):
 	
-			score = max(score,CoupMin(profondeur-1, game.getCopieJeu(jeu), jeu[2][i],lefttest))
+			score = max(score,CoupMin(profondeur-1, game.getCopieJeu(jeu), jeu[2][i],leftest))
 			leftest = False
 	
 			if score >= Beta:
@@ -272,4 +303,8 @@ def jsp(jeu,coup,leftest):
 	h6=-jeu[4][enemi-1]
 	
 	return h1*Pond[0]+h2*Pond[1]+h3*Pond[2]+h4*Pond[3]+h5*Pond[4]+h6*Pond[5]
+
+
+
+
                 

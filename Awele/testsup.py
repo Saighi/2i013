@@ -20,16 +20,18 @@ lj2=[game.joueur2,0]
 
 h=10
 W=joueur_AlphaBeta_prof1.Pond
-Alpha= 0.05
+Alpha= 0.00009
+correction=True
 
 def play():
 
     global W
     global Alpha
+    global correction 
 
     jeu = game.initialiseJeu()
-    print(game.joueur1)
     
+    correction = False
     while True:
 
 
@@ -37,9 +39,11 @@ def play():
 
         #game.affiche(jeu)
         valides = game.getCoupsValides(jeu)
+        
 
+        if jeu[2] !=None and Alpha>0 :
+          
 
-        if jeu[2] !=None:
             scoresoracle= oracle.scorescoups(jeu)
 
 
@@ -47,7 +51,9 @@ def play():
 
             for i in range(len(valides)):
                 if scoresoracle[i] < max(scoresoracle):
-                    if (o-EvalCoupHorizon1(game.getCopieJeu(jeu),valides[i]))<1:
+                    if (o-EvalCoupHorizon1(game.getCopieJeu(jeu),valides[i]))<2:
+
+                        correction = True
 
                         W[0]= W[0]-Alpha*(h1CoupHorizon1(game.getCopieJeu(jeu),valides[i])-h1CoupHorizon1(game.getCopieJeu(jeu),oracle.saisieCoup(jeu)))
                             
@@ -60,7 +66,7 @@ def play():
                         W[4]= W[4]-Alpha*(h5CoupHorizon1(game.getCopieJeu(jeu),valides[i])-h5CoupHorizon1(game.getCopieJeu(jeu),oracle.saisieCoup(jeu)))
 
                         W[5]= W[5]-Alpha*(h6CoupHorizon1(game.getCopieJeu(jeu),valides[i])-h6CoupHorizon1(game.getCopieJeu(jeu),oracle.saisieCoup(jeu)))
-
+        
 
 
 
@@ -176,14 +182,20 @@ def run():
 
     global W
     global Alpha
+    global correction
     
 
     n=0
 
     
 
-    while n < 100:
+    while n<100 :
 
+        print(n)
+        if correction:
+            print("True")
+        else:
+            print("False")
     
 
         if play() == 1:
@@ -206,7 +218,7 @@ def run():
         game.joueur1 = game.joueur2
         game.joueur2 = t
 
-        Alpha-=0.001
+        Alpha-=0.0000009
 
     print("le joueur 1 a gagne " + str(lj1[1]) + " fois")
 
